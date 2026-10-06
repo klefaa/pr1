@@ -1,56 +1,116 @@
-# Welcome to your Expo app 👋
+# React Native Map App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Приложение на React Native и Expo с картой и маркерами.
 
-## Get started
+В приложении можно добавлять маркеры на карту долгим нажатием, открывать отдельный экран маркера, смотреть его координаты, добавлять изображения из галереи и удалять их.
 
-1. Install dependencies
+## Запуск проекта
 
-   ```bash
-   npm install
-   ```
-
-2. Start the app
-
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+Сначала нужно установить зависимости:
 
 ```bash
-npm run reset-project
+npm install
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+После этого запустить Expo:
 
-### Other setup steps
+```bash
+npx expo start
+```
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+Для тестирования использовался Expo Go.
 
-## Learn more
+## Используемые технологии
 
-To learn more about developing your project with Expo, look at the following resources:
+- React Native
+- Expo
+- TypeScript
+- Expo Router
+- react-native-maps
+- expo-image-picker
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## Основной функционал
 
-## Join the community
+- отображение карты;
+- добавление маркеров долгим нажатием;
+- переход на отдельный экран выбранного маркера;
+- отображение широты и долготы;
+- добавление изображений из галереи;
+- удаление изображений;
+- удаление маркера;
+- обработка ошибок при выборе изображения и навигации;
+- запрос разрешения на доступ к медиатеке.
 
-Join our community of developers creating universal apps.
+## Структура проекта
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+```text
+src/
+├── app/
+│   ├── _layout.tsx
+│   ├── index.tsx
+│   └── marker/
+│       └── [id].tsx
+├── components/
+│   ├── Map.tsx
+│   └── ImageList.tsx
+├── context/
+│   └── MarkersContext.tsx
+└── types.ts
+```
+
+## Как устроено приложение
+
+Для навигации используется Expo Router.
+
+Главный экран находится в:
+
+```text
+src/app/index.tsx
+```
+
+Экран отдельного маркера находится в:
+
+```text
+src/app/marker/[id].tsx
+```
+
+`[id]` используется как динамический параметр маршрута.
+
+Данные о маркерах хранятся в React Context, чтобы к ним можно было обращаться с разных экранов приложения.
+
+Каждый маркер содержит:
+
+- id;
+- широту;
+- долготу;
+- список изображений.
+
+## Изображения
+
+Для выбора изображений используется `expo-image-picker`.
+
+После выбора изображения сохраняется его локальный `uri`, который добавляется к выбранному маркеру.
+
+Изображения можно удалить с экрана маркера.
+
+## Обработка ошибок
+
+В приложении добавлена обработка нескольких ситуаций:
+
+- ошибка выбора изображения;
+- отсутствие выбранного изображения;
+- попытка открыть несуществующий маркер;
+- ошибка при создании маркера;
+- ошибка навигации.
+
+## Дополнительно
+
+Дополнительно реализована функция удалить маркер)
+
+## Ограничения
+
+Сейчас данные хранятся только в состоянии приложения.
+
+После полного перезапуска приложения созданные маркеры и добавленные изображения не сохраняются.
+
+Для постоянного хранения данных в дальнейшем можно добавить AsyncStorage или базу данных.
